@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/layout/Header";
+import Home from "./components/pages/Home";
 import About from "./components/pages/About";
 import { Jumbotron } from "reactstrap";
 
@@ -16,11 +17,12 @@ function App() {
             <Route
               exact
               path="/"
-              render={props => (
-                <React.Fragment>
-                  <h1>Main Page</h1>
-                </React.Fragment>
-              )}
+              component={Home}
+            // render={props => (
+            //   <React.Fragment>
+            //     <h1>Main Page</h1>
+            //   </React.Fragment>
+            // )}
             />
             <Route path="/about" component={About} />
           </Jumbotron>
