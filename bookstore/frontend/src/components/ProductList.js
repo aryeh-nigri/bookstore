@@ -8,8 +8,8 @@ import { ProductConsumer, getProducts } from "../context";
 export default class ProductList extends Component {
 
     state = {
-        products: storeProducts
-        // products: getProducts()
+        //products: storeProducts
+        products: getProducts()
     };
 
     render() {
@@ -21,7 +21,9 @@ export default class ProductList extends Component {
                         <div className="row">
                             <ProductConsumer>
                                 {value => {
-                                    return value.products.map(product => {
+                                    const products = value.products;
+                                    
+                                    return products.map(product => {
                                         return <Product key={product.id} product={product} />;
                                     });
                                 }}

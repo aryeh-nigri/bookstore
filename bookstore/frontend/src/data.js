@@ -5,23 +5,15 @@ https://www.iconfinder.com/Makoto_msk */
 
 const BOOKS_URL = "http://localhost:8080/api/books";
 
-function getProducts(url = BOOKS_URL) {
+async function getProducts(url = BOOKS_URL) {
 
-    fetch(url)
-        .then(res => {
-            console.log(res);
-            res.json();
-        })
-        .then(books => {
-            console.log(books);
-            return books;
-        })
-        .catch(err => {
-            console.log(err);
-            return [];
-        }
-        );
-
+    const response = await fetch(url, {
+        method: 'GET',
+    });
+    const books = await response.json(); 
+    console.log(books);
+    return books;
+    
 };
 export const storeProducts = getProducts(BOOKS_URL);
 // export const storeProducts = [

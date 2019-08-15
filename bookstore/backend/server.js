@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require('cors');
 
 const app = express();
 
@@ -18,10 +19,13 @@ mongoose
   .then(() => console.log("MongoDB Connected..."))
   .catch(err => console.log(err));
 
+
+app.use(cors());
+
 // Use Routes
-app.use("/api/users", require("../routes/api/users"));
-app.use("/api/books", require("../routes/api/books"));
-app.use("/api/auth", require("../routes/api/auth"));
+app.use("/api/users", require("./routes/api/users"));
+app.use("/api/books", require("./routes/api/books"));
+app.use("/api/auth", require("./routes/api/auth"));
 
 // // Serve static assets if in production
 // if (process.env.NODE_ENV === 'production') {

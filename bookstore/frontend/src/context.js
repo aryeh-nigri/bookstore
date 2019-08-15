@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 // these are JSON data of the products
 // storeProducts is all
 // detailProduct is the first product
@@ -6,17 +7,15 @@ import { storeProducts, detailProduct } from "./data";
 const ProductContext = React.createContext();
 const BOOKS_URL = "http://localhost:8080/api/books";
 
-function getProducts(url = BOOKS_URL) {
 
-    fetch(url)
-        .then(res => res.json())
-        .then(books => {
-            console.log(books);
-            return books;
-        })
-        .catch(err => console.log(err)
-        );
-
+async function getProducts(url = BOOKS_URL) {
+    
+   const response = await fetch(url, {
+        method: 'GET',
+    });    
+    const books = response.json(); 
+    console.log(books);
+    return books;
 };
 
 class ProductProvider extends Component {
@@ -34,13 +33,18 @@ class ProductProvider extends Component {
         this.setProducts();
     }
 
-    setProducts = () => {
+    setProducts = async () => {
+        const response = await fetch("http://localhost:8080/api/books", {
+            method: 'GET',
+        });    
+        const books = await response.json(); 
+        
         let products = [];
-        storeProducts.forEach(item => {
-            const singleItem = { ...item };
-            products = [...products, singleItem];
-        });
-        // const products = getProducts(BOOKS_URL);
+        books.forEach(item => {
+                const singleItem = { ...item };
+                products = [...products, singleItem];
+            });
+            
         this.setState(() => {
             return { products };
         }, this.checkCartItems);
