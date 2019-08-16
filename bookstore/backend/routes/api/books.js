@@ -43,6 +43,8 @@ router.post("/", auth, (req, res) => {
 // @access  Private
 router.delete("/:id", auth, (req, res) => {
   var id = req.params.id;
+  console.log(id);
+
   Book.removeBook(id, (err, book) => {
     if (err) {
       throw err;

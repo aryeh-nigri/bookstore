@@ -8,6 +8,8 @@ export default function Details() {
     return (
         <ProductConsumer>
             {value => {
+                console.log(value);
+                
                 const {
                     id,
                     company,
@@ -33,9 +35,9 @@ export default function Details() {
                             </div>
                             {/* prdoduct info */}
                             <div className="col-10 mx-auto col-md-6 my-3 text-capitalize">
-                                <h1>model : {title}</h1>
+                                <h1>title : {title}</h1>
                                 <h4 className="text-title text-uppercase text-muted mt-3 mb-2">
-                                    made by : <span className="text-uppercase">{company}</span>
+                                    Author : <span className="text-uppercase">{company}</span>
                                 </h4>
                                 <h4 className="text-blue">
                                     <strong>

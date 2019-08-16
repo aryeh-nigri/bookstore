@@ -32,7 +32,12 @@ const BookSchema = mongoose.Schema({
   price: {
     type: String,
     required: true
+  },
+  inCart: {
+    type: Boolean,
+    required: true
   }
+
 });
 
 const Book = (module.exports = mongoose.model("Book", BookSchema));

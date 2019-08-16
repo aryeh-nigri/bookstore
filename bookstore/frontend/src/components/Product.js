@@ -5,7 +5,9 @@ import { ProductConsumer } from "../context";
 
 export default function Product(props) {
 
-  const { id, title, img, price, inCart } = props.product;
+  const { _id, title, image_url, price, inCart } = props.product;
+  console.log(_id);
+  
 
   return (
     <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
@@ -15,17 +17,17 @@ export default function Product(props) {
             return (
               <div
                 className="img-container p-5"
-                onClick={() => value.handleDetail(id)}
+                onClick={() => value.handleDetail(_id)}
               >
                 <Link to="/details">
-                  <img src={img} alt="" className="card-img-top" />
+                  <img src="https://vignette.wikia.nocookie.net/enciclopotterpedia/images/0/03/Harry-potter-e-a-pedra-filosofal-livro.jpg/revision/latest?cb=20140426134042&path-prefix=pt-br" alt="" className="card-img-top" />
                 </Link>
                 <button
                   className="cart-btn"
                   disabled={inCart ? true : false}
                   onClick={() => {
-                    value.addToCart(id);
-                    value.openModal(id);
+                    value.addToCart(_id);
+                    value.openModal(_id);
                   }}
                 >
                   {inCart ? (
