@@ -6,7 +6,6 @@ import { ProductConsumer } from "../context";
 export default function Product(props) {
 
   const { _id, title, image_url, price, inCart } = props.product;
-  console.log(_id);
   
 
   return (
@@ -20,7 +19,7 @@ export default function Product(props) {
                 onClick={() => value.handleDetail(_id)}
               >
                 <Link to="/details">
-                  <img src="https://vignette.wikia.nocookie.net/enciclopotterpedia/images/0/03/Harry-potter-e-a-pedra-filosofal-livro.jpg/revision/latest?cb=20140426134042&path-prefix=pt-br" alt="" className="card-img-top" />
+                  <img src={image_url} alt="" className="card-img-top" />
                 </Link>
                 <button
                   className="cart-btn"

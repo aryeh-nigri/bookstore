@@ -11,8 +11,19 @@ export default class ProductList extends Component {
         //products: storeProducts
         products: getProducts()
     };
-
+    
+    googleBooks =  async function (params) {
+        const response = await fetch('https://www.googleapis.com/books/v1/volumes?q=harry+potter&intitle=harry+potter&key=AIzaSyD2QWE7fuDymvvLUCFwOfN7CHZ2w8sEmDI', {
+            method: 'GET',
+        });           
+        const res = response.json();
+        console.log(res);
+        
+        return res;
+    }
+        
     render() {
+        this.googleBooks();
         return (
             <React.Fragment>
                 <ProductWrapper className="py-5">

@@ -97,9 +97,12 @@ class ProductProvider extends Component {
 
     increment = id => {
         let tempCart = [...this.state.cart];
+        console.log(tempCart);
         const selectedProduct = tempCart.find(item => {
-            return item.id === id;
+            return item._id === id;
         });
+        console.log(selectedProduct);
+        
         const index = tempCart.indexOf(selectedProduct);
         const product = tempCart[index];
         product.count = product.count + 1;
@@ -116,11 +119,12 @@ class ProductProvider extends Component {
     decrement = id => {
         let tempCart = [...this.state.cart];
         const selectedProduct = tempCart.find(item => {
-            return item.id === id;
+            return item._id === id;
         });
         const index = tempCart.indexOf(selectedProduct);
         const product = tempCart[index];
         product.count = product.count - 1;
+
         if (product.count === 0) {
             this.removeItem(id);
         } else {
@@ -180,7 +184,7 @@ class ProductProvider extends Component {
         removedProduct.total = 0;
 
         tempCart = tempCart.filter(item => {
-            return item.id !== id;
+            return item._id !== id;
         });
 
         this.setState(() => {
