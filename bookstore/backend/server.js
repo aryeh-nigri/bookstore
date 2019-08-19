@@ -51,6 +51,11 @@ const http = require('http').Server(app)
 // require the socket.io module
 const io = require('socket.io');
 
+//wire up the server to listen to our port
+http.listen(port, () => {
+  console.log(`Connected to port ${port}`);
+});
+
 const socket = io(http);
 //create an event listener
 
@@ -60,41 +65,15 @@ socket.on('connection', (socket) => {
   console.log('User connected');
 
   socket.on("disconnect", function () {
-    console.log("user disconnected");
+    console.log("User disconnected");
   });
 
   socket.on("newPost", function (post) {
-
     console.log("Post: " + post);
-
     // Broadcast message to everyone
     socket.broadcast.emit("postReceived", { post });
-
-    const Post = require("../models/Post");
-
-    // Save post to the database
-    const newPost = new Post({
-      message: post.message,
-      author: post.author,
-      bookId: post.bookId
-    });
-
-    Post.addPost(newPost, (err, post) => {
-      if (err) throw err;
-      console.log('post added')
-    });
-
-    //   connect.then(db => {
-    //     console.log("connected correctly to the server");
-
-    //     let chatMessage = new Chat({ message: msg, sender: "Anonymous" });
-    //     chatMessage.save();
-    //   });
-    // });
-
   });
 
-  //wire up the server to listen to our port
-  http.listen(port, () => {
-    console.log(`Connected to port ${port}`);
-  });
+});
+
+
