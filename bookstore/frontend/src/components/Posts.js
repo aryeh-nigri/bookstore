@@ -38,11 +38,11 @@ export default function Posts() {
 const socket = io('http://localhost:8080');
 // var messages = $("#messages");
 
-socket.emit('newPost', { message: 'teste', author: 'fulano', bookId: '123' });
+// socket.emit('newPost', { message: 'teste', author: 'fulano', bookId: '123' });
 
-socket.on('postReceived', data => {
-    console.log(data)
-});
+// socket.on('postReceived', data => {
+//     console.log(data)
+// });
 
 // (function () {
 //     $("form").submit(function (e) {
