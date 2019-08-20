@@ -8,7 +8,7 @@
   }
   
   .chat_window {
-    position: absolute;
+    /* position: absolute; */
     width: calc(100% - 20px);
     max-width: 800px;
     height: 500px;

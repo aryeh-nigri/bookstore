@@ -72,7 +72,9 @@ export default function Details() {
                             </div>
                         </div>
                         <div id="bottomDiv">
-                            <Posts />
+                            {console.log("_ID from details" + _id)
+                            }
+                            <Posts bookId={_id} username='UserNameHere' />
                         </div>
                     </div>
                 );

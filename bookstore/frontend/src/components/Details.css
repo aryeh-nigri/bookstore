@@ -1,17 +1,15 @@
-#parentDiv {
+ #parentDiv {
     height: 100%;
+    width: 100%;
+    font-size: 16px;
+    text-align: center;
 }
-
+/*
 #topDiv {
     clear: both;
     position: fixed;
     top: 0;
     height: 50%;
-    width: 100%;
-    background-color: #990000;
-    color: #FFFFFF;
-    font-size: 16px;
-    text-align: center;
 }
 
 #bottomDiv {
@@ -19,14 +17,8 @@
     position: fixed;
     bottom: 0;
     height: 50%;
-    width: 100%;
-    background-color: #009900;
-    color: #FFFFFF;
-    font-size: 16px;
-    text-align: center;
-}​
+} */
 
-/* 
 #topDiv {
     position: fixed;
     left: 0;
@@ -41,4 +33,4 @@
     right: 0;
     height: 30%;
     bottom: 0;
-} */
+}

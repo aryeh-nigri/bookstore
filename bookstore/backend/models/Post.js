@@ -12,7 +12,9 @@ const PostSchema = mongoose.Schema(
             required: true
         },
         bookId: {
-            type: mongoose.Schema.Types.ObjectId,
+            // type: mongoose.Schema.Types.ObjectId,
+            type: String,
+            ref: 'Book',
             required: true
         }
     },
