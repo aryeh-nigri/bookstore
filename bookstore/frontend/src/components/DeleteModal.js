@@ -38,7 +38,7 @@ export default class DeleteModal extends Component {
                                                     YES
                                                 </ButtonContainer>
                                             </Link>
-                                            <Link to="/cart">
+                                            <Link to="/booksAdministration">
                                                 <ButtonContainer
                                                     onClick={() => {
                                                         closeDeleteModal();
