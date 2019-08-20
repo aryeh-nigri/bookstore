@@ -1,48 +1,100 @@
-import React from 'react';
+import React, { Component } from 'react';
 import io from 'socket.io-client';
+import axios from 'axios';
 import $ from 'jquery';
-import './Posts.css';
+// import './Posts.css';
 
-export default function Posts() {
-    return (
-        <div>
-            <div className="chat_window">
-                <div className="top_menu">
-                    <div className="buttons">
-                        <div className="button close"></div>
-                        <div className="button minimize"></div>
-                        <div className="button maximize"></div>
-                    </div>
-                    <div className="title">Chat</div>
-                </div>
-                <ul id="messages" className="messages">
+export default class Posts extends Component {
 
-                </ul>
+    state = {
+        posts: []
+    }
 
-                <div className="bottom_wrapper clearfix">
-                    <i id="typing"></i>
-                    <form id="form">
-                        <div className="message_input_wrapper">
-                            <input id="message" className="message_input" placeholder="Type your message here..." />
+    constructor() {
+        super();
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        const data = new FormData(event.target);    // {message:"some message"}
+
+        console.log(data);
+
+        const newPost = {
+            message: data.message,
+            author: this.props.bookId.username,
+            bookId: this.props.bookId
+        };
+
+        console.log(newPost);
+
+        fetch('http://localhost:8080/posts/', {
+            method: 'POST',
+            body: newPost,
+        }).then(post => {
+            console.log(post);
+            const posts = [...this.state.posts, post];
+            this.setState({ posts });
+        })
+    }
+
+    componentDidMount() {
+        console.log(this.props.bookId);
+        console.log(typeof (this.props.bookId));
+
+        axios.get('http://localhost:8080/posts/' + this.props.bookId)
+            .then(posts => {
+                console.log(posts);
+                this.setState({ posts });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    render() {
+        return (
+            <div>
+                <div className="chat_window">
+                    <div className="top_menu">
+                        <div className="buttons">
+                            <div className="button close"></div>
+                            <div className="button minimize"></div>
+                            <div className="button maximize"></div>
                         </div>
-                        <button className="send_message">
-                            Send
-        </button>
-                    </form>
+                        <div className="title">Chat</div>
+                    </div>
+                    <ul id="messages" className="messages">
+
+                    </ul>
+
+                    <div className="bottom_wrapper clearfix">
+                        <i id="typing"></i>
+                        <form id="form" onSubmit={this.handleSubmit}>
+                            <div className="message_input_wrapper">
+                                <label htmlFor="message">Enter message</label>
+                                <input id="message" name="message" className="message_input" placeholder="Type your message here..." />
+                            </div>
+                            <button className="send_message">
+                                Send
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
-const socket = io('http://localhost:8080');
+// const socket = io('http://localhost:8080');
 // var messages = $("#messages");
 
-socket.emit('newPost', { message: 'teste', author: 'fulano', bookId: '123' });
+// socket.emit('newPost', { message: 'teste', author: 'fulano', bookId: '123' });
 
-socket.on('postReceived', data => {
-    console.log(data)
-});
+// socket.on('postReceived', data => {
+//     console.log(data)
+// });
 
 // (function () {
 //     $("form").submit(function (e) {

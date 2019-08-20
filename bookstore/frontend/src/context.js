@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 // these are JSON data of the products
 // storeProducts is all
 // detailProduct is the first product
-import { storeProducts, detailProduct } from "./data";
+// import { storeProducts, detailProduct } from "./data";
 const ProductContext = React.createContext();
 const BOOKS_URL = "http://localhost:8080/api/books";
 
 
 async function getProducts(url = BOOKS_URL) {
-    
-   const response = await fetch(url, {
+
+    const response = await fetch(url, {
         method: 'GET',
-    });    
-    const books = response.json(); 
+    });
+    const books = response.json();
     console.log(books);
     return books;
 };
@@ -20,13 +20,13 @@ async function getProducts(url = BOOKS_URL) {
 class ProductProvider extends Component {
     state = {
         products: [],
-        detailProduct: detailProduct,
+        detailProduct: {},
         cart: [],
         modalOpen: false,
         updateModalOpen: false,
         deleteModalOpen: false,
         addModalOpen: false,
-        modalProduct: detailProduct,
+        modalProduct: {},
         cartSubTotal: 0,
         cartTax: 0,
         cartTotal: 0
@@ -62,17 +62,19 @@ class ProductProvider extends Component {
     setProducts = async () => {
         const response = await fetch("http://localhost:8080/api/books", {
             method: 'GET',
-        });    
-        const books = await response.json(); 
-        
+        });
+        const books = await response.json();
+
         let products = [];
         books.forEach(item => {
-                const singleItem = { ...item };
-                products = [...products, singleItem];
-            });
-            
+            const singleItem = { ...item };
+            products = [...products, singleItem];
+        });
+        const detailProduct = products[0];
+        const modalProduct = detailProduct;
+
         this.setState(() => {
-            return { products };
+            return { products, detailProduct, modalProduct };
         }, this.checkCartItems);
     };
     getItem = id => {
@@ -83,7 +85,7 @@ class ProductProvider extends Component {
     handleDetail = id => {
         const product = this.getItem(id);
         console.log(product);
-        
+
         this.setState(() => {
             return { detailProduct: product };
         });
@@ -158,7 +160,7 @@ class ProductProvider extends Component {
             return item._id === id;
         });
         console.log(selectedProduct);
-        
+
         const index = tempCart.indexOf(selectedProduct);
         const product = tempCart[index];
         product.count = product.count + 1;

@@ -1,0 +1,36 @@
+ #parentDiv {
+    height: 100%;
+    width: 100%;
+    font-size: 16px;
+    text-align: center;
+}
+/*
+#topDiv {
+    clear: both;
+    position: fixed;
+    top: 0;
+    height: 50%;
+}
+
+#bottomDiv {
+    clear: both;
+    position: fixed;
+    bottom: 0;
+    height: 50%;
+} */
+
+#topDiv {
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 70%;
+    top: 0;
+}
+
+#bottomDiv {
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 30%;
+    bottom: 0;
+}
