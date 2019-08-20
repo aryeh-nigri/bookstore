@@ -8,6 +8,9 @@ import Details from "./components/Details";
 import Default from "./components/Default";
 import Cart from "./components/Cart";
 import Modal from "./components/Modal";
+import DeleteModal from "./components/DeleteModal";
+import UpdateModal from "./components/UpdateModal";
+import BookAdministration from "./components/BooksAdministration";
 
 function App() {
   return (
@@ -17,9 +20,12 @@ function App() {
         <Route exact path="/" component={ProductList} />
         <Route path="/details" component={Details} />
         <Route path="/cart" component={Cart} />
+        <Route path="/booksAdministration" component={BookAdministration} />
         <Route component={Default} />
       </Switch>
       <Modal />
+      <DeleteModal />
+      <UpdateModal />
     </React.Fragment>
   );
 }

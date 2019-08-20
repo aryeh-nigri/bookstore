@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 // these are JSON data of the products
 // storeProducts is all
 // detailProduct is the first product
@@ -24,11 +23,38 @@ class ProductProvider extends Component {
         detailProduct: detailProduct,
         cart: [],
         modalOpen: false,
+        updateModalOpen: false,
+        deleteModalOpen: false,
+        addModalOpen: false,
         modalProduct: detailProduct,
         cartSubTotal: 0,
         cartTax: 0,
         cartTotal: 0
     };
+
+    addNewBook = async newBook => {
+        console.log(`from add new book book: ${newBook}`);
+        const newBookJSON = JSON.stringify(newBook);
+        console.log(newBookJSON);
+        
+        const response = await fetch("http://localhost:8080/api/books", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            body:newBookJSON
+        });
+        if(response.ok){    
+            const books = response.json(); 
+            console.log(books);
+            this.setProducts();
+            return books;
+        }
+        console.log("create fail!");
+        
+    }
+
     componentDidMount() {
         this.setProducts();
     }
@@ -49,7 +75,6 @@ class ProductProvider extends Component {
             return { products };
         }, this.checkCartItems);
     };
-
     getItem = id => {
         const product = this.state.products.find(item => item._id === id);
         return product;
@@ -88,13 +113,44 @@ class ProductProvider extends Component {
             return { modalProduct: product, modalOpen: true };
         });
     };
+    openAddModal = (product) => {
+        this.setState(() => {
+            return { modalProduct:product,  addModalOpen: true };
+        });
+    };
+    openDeleteModal = id => {
+        const product = this.getItem(id);  
+        this.setState(() => {
+            return { modalProduct: product, deleteModalOpen: true };
+        });         
+    };
+    openUpdateModal = id => {
+        const product = this.getItem(id);
+        this.setState(() => {
+            return { modalProduct: product, updateModalOpen: true };
+        });
+    };
 
     closeModal = () => {
         this.setState(() => {
             return { modalOpen: false };
         });
     };
-
+    closeUpdateModal = () => {
+        this.setState(() => {
+            return { updateModalOpen: false };
+        });
+    };
+    closeDeleteModal = () => {
+        this.setState(() => {
+            return { deleteModalOpen: false };
+        });
+    };
+    closeAddModal = () => {
+        this.setState(() => {
+            return { addModalOpen: false };
+        });
+    };
     increment = id => {
         let tempCart = [...this.state.cart];
         console.log(tempCart);
@@ -172,6 +228,21 @@ class ProductProvider extends Component {
             }
         );
     };
+    deleteFromStore = async id => {
+        console.log(`from deleteFromStore id: ${id}`);
+        
+        const response = await fetch(`http://localhost:8080/api/books/${id}`, {
+            method: 'DELETE',
+        });
+        if(response.ok){    
+            const books = response.json(); 
+            console.log(books);
+            this.setProducts();
+            return books;
+        }
+        console.log("delete fail!");
+        
+    }
 
     removeItem = id => {
         let tempProducts = [...this.state.products];
@@ -215,11 +286,19 @@ class ProductProvider extends Component {
                     handleDetail: this.handleDetail,
                     addToCart: this.addToCart,
                     openModal: this.openModal,
+                    openDeleteModal: this.openDeleteModal,
+                    openUpdateModal: this.openUpdateModal,
+                    openAddModal: this.openAddModal,
                     closeModal: this.closeModal,
+                    closeDeleteModal: this.closeDeleteModal,
+                    closeUpdateModal: this.closeDeleteModal,
+                    closeAddModal: this.closeAddModal,
                     increment: this.increment,
                     decrement: this.decrement,
                     removeItem: this.removeItem,
-                    clearCart: this.clearCart
+                    deleteFromStore: this.deleteFromStore,
+                    clearCart: this.clearCart,
+                    addNewBook: this.addNewBook,
                 }}
             >
                 {this.props.children}

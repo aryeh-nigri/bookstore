@@ -23,8 +23,9 @@ router.get("/", (req, res) => {
 // @route   POST api/books
 // @desc    Create A Book
 // @access  Private
-router.post("/", auth, (req, res) => {
+router.post("/", (req, res) => {
   var book = req.body;
+  console.log(book);
   Book.addBook(book, (err, book) => {
     if (err) {
       throw err;
@@ -41,7 +42,7 @@ router.post("/", auth, (req, res) => {
 // @route   DELETE api/books/:id
 // @desc    Delete A Book
 // @access  Private
-router.delete("/:id", auth, (req, res) => {
+router.delete("/:id", (req, res) => {
   var id = req.params.id;
   console.log(id);
 
