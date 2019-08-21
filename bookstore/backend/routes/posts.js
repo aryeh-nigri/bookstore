@@ -30,8 +30,10 @@ router.get("/:bookId", (req, res) => {
 // @route   POST /posts
 // @desc    Create A Post
 // @access  Private
-router.post("/", auth, (req, res) => {
+// router.post("/", auth, (req, res) => {
+    router.post("/", (req, res) => {
     var post = req.body;
+    console.log(post);
     Post.addPost(post, (err, post) => {
         if (err) {
             throw err;
@@ -43,7 +45,8 @@ router.post("/", auth, (req, res) => {
 // @route   DELETE /posts/:id
 // @desc    Delete A Post
 // @access  Private
-router.delete("/:id", auth, (req, res) => {
+// router.delete("/:id", auth, (req, res) => {
+    router.delete("/:id", (req, res) => {
     var id = req.params.id;
     console.log(id);
 

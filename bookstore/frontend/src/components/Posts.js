@@ -4,49 +4,56 @@ import axios from 'axios';
 import $ from 'jquery';
 // import './Posts.css';
 
+const endpoint = 'http://localhost:8080/';
+const POSTS_URL = endpoint + 'posts/';
+
 export default class Posts extends Component {
 
-    state = {
-        posts: []
-    }
-
     constructor() {
+
         super();
+        
+        this.state = {
+            posts: [],
+            message:''
+        };
+
+        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    handleChange(event) {
+        this.setState({message: event.target.value});
+      }
+
     handleSubmit(event) {
         event.preventDefault();
-        const data = new FormData(event.target);    // {message:"some message"}
-
-        console.log(data);
 
         const newPost = {
-            message: data.message,
-            author: this.props.bookId.username,
+            message: this.state.message,
+            author: this.props.username,
             bookId: this.props.bookId
         };
 
         console.log(newPost);
 
-        fetch('http://localhost:8080/posts/', {
-            method: 'POST',
-            body: newPost,
-        }).then(post => {
-            console.log(post);
-            const posts = [...this.state.posts, post];
-            this.setState({ posts });
+        axios.post(POSTS_URL, newPost)
+        .then(post => {
+            console.log(post.data);
+            this.setState({ posts: [...this.state.posts, post.data] });
         })
+        .catch(err=>{console.log(err);});
     }
 
     componentDidMount() {
         console.log(this.props.bookId);
         console.log(typeof (this.props.bookId));
 
-        axios.get('http://localhost:8080/posts/' + this.props.bookId)
+        axios.get(POSTS_URL + this.props.bookId)
             .then(posts => {
-                console.log(posts);
-                this.setState({ posts });
+                console.log("componentDidMount");
+                console.log(posts.data);
+                this.setState({ posts:posts.data });
             })
             .catch(err => {
                 console.log(err);
@@ -74,7 +81,8 @@ export default class Posts extends Component {
                         <form id="form" onSubmit={this.handleSubmit}>
                             <div className="message_input_wrapper">
                                 <label htmlFor="message">Enter message</label>
-                                <input id="message" name="message" className="message_input" placeholder="Type your message here..." />
+                                <input id="message" value={this.state.message} onChange={this.handleChange} 
+                                name="message" className="message_input" placeholder="Type your message here..." />
                             </div>
                             <button className="send_message">
                                 Send
@@ -87,7 +95,7 @@ export default class Posts extends Component {
     }
 }
 
-// const socket = io('http://localhost:8080');
+// const socket = io('/');
 // var messages = $("#messages");
 
 // socket.emit('newPost', { message: 'teste', author: 'fulano', bookId: '123' });

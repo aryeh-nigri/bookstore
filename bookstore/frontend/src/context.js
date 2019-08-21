@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 // detailProduct is the first product
 // import { storeProducts, detailProduct } from "./data";
 const ProductContext = React.createContext();
-const BOOKS_URL = "http://localhost:8080/api/books";
+const endpoint = 'http://localhost:8080/';
+const BOOKS_URL = endpoint + "api/books";
 
 
 async function getProducts(url = BOOKS_URL) {
@@ -37,7 +38,7 @@ class ProductProvider extends Component {
         const newBookJSON = JSON.stringify(newBook);
         console.log(newBookJSON);
         
-        const response = await fetch("http://localhost:8080/api/books", {
+        const response = await fetch(BOOKS_URL, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -60,7 +61,7 @@ class ProductProvider extends Component {
     }
 
     setProducts = async () => {
-        const response = await fetch("http://localhost:8080/api/books", {
+        const response = await fetch(BOOKS_URL, {
             method: 'GET',
         });
         const books = await response.json();
@@ -233,7 +234,7 @@ class ProductProvider extends Component {
     deleteFromStore = async id => {
         console.log(`from deleteFromStore id: ${id}`);
         
-        const response = await fetch(`http://localhost:8080/api/books/${id}`, {
+        const response = await fetch(endpoint + `api/books/${id}`, {
             method: 'DELETE',
         });
         if(response.ok){    
