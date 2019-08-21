@@ -32,21 +32,21 @@ export default function Navbar() {
                         </Link>
                     </li>
                     <li className="nav-item ml-5">
-                        <Link to="/contactUs" className="nav-end nav-link ">
+                        <Link to="/contactUs" className="nav-link ">
                             Contact Us <img src={logo} alt="store" className="navbar-brand" />
                         </Link>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                     <li className="nav-item">
-                    <Link to="/contactUs" className="nav-signin nav-link">
+                    <Link to="/contactUs" className="nav-link">
                         <ButtonContainer>
                     Login
                     </ButtonContainer>
                     </Link>
                     </li>
                     <li className="nav-item">
-                    <Link to="/contactUs" className="nav-signin nav-link ">
+                    <Link to="/contactUs" className="nav-link ">
                     <ButtonContainer>
                     Sign In
                     </ButtonContainer>
