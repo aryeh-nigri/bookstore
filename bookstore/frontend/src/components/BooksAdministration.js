@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { ProductConsumer, getProducts } from "../context";
 import BookToAdd from "./BookToAdd";
 import AddModal from "./AddModal"
-
+import "./BooksAdministration.css"
 export default class BooksAdministration extends Component {
     constructor(props) {
       super(props);
@@ -50,12 +50,16 @@ export default class BooksAdministration extends Component {
         return (
   
             <React.Fragment>
+              <div className="form-container">
+                <div className="book-form">
                 <form onSubmit={this.handleSubmit}>
                   <label>
-                    <input type="text" placeholder="Title of a book" value={this.state.value} onChange={this.handleChange} />
+                    <input type="text" className="book-input" placeholder="Write a title of a book to look for..." value={this.state.value} onChange={this.handleChange} />
                   </label>
-                  <input type="submit" value="Submit" />
+                  <input type="submit" value="Find to me!" />
                 </form>
+                </div>
+               </div>
                 <ProductWrapper className="py-5">
                     <div className="container">
                         <Title name="Our" title="Books" />
@@ -73,9 +77,10 @@ export default class BooksAdministration extends Component {
                         <Title name="Google" title="Books" />          
                         <div className="row">         
                             {
+                               this.state.googleBooks.length ? (
                                this.state.googleBooks.map(product => {
                                  return <BookToAdd key={product.id} product={product} />                  
-                               })
+                               })) : <h3>No books found yet... :( </h3>
                             }
                         </div>   
                     </div>

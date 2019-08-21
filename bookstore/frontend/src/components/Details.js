@@ -23,7 +23,7 @@ export default function Details() {
                 } = value.detailProduct;
 
                 return (
-                    <div id="parentDiv">
+                    
                         <div className="container py-5" id="topDiv">
                             {/* title */}
                             <div className="row">
@@ -70,15 +70,16 @@ export default function Details() {
                                     </div>
                                 </div>
                             </div>
+                            <div id="lastBottomDiv">
+                                {console.log("_ID from details" + _id)}
+                                { <Posts bookId={_id} title={title} username='UserNameHere' /> }
+                            </div>
+                        
                         </div>
-                        <div id="bottomDiv">
-                            {console.log("_ID from details" + _id)
-                            }
-                            <Posts bookId={_id} title={title} username='UserNameHere' />
-                        </div>
-                    </div>
+                    
                 );
             }}
         </ProductConsumer>
     );
 }
+
