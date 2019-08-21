@@ -69,9 +69,10 @@ socket.on('connection', (socket) => {
   });
 
   socket.on("newPost", function (post) {
-    console.log("Post: " + post.message);
+    console.log("ON newPost");
+    console.log(post);
     // Broadcast message to everyone
-    socket.broadcast.emit("postReceived", { post });
+    socket.broadcast.emit("postReceived", post);
   });
 
 });

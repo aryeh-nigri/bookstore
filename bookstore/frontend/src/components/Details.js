@@ -74,7 +74,7 @@ export default function Details() {
                         <div id="bottomDiv">
                             {console.log("_ID from details" + _id)
                             }
-                            <Posts bookId={_id} username='UserNameHere' />
+                            <Posts bookId={_id} title={title} username='UserNameHere' />
                         </div>
                     </div>
                 );

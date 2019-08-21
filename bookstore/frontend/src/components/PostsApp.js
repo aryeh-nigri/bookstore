@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import io from 'socket.io-client';
-import axios from 'axios';
+import axios from "axios";
 
-import CommentList from "./CommentList";
-import CommentForm from "./CommentForm";
+import CommentList from "./components/CommentList";
+import CommentForm from "./components/CommentForm";
 
 const endpoint = 'http://localhost:8080/';
 const POSTS_URL = endpoint + 'posts/';
 
 const socket = io(endpoint);
 
-export default class Posts extends Component {
+class PostsApp extends Component {
     constructor(props) {
         super(props);
 
@@ -69,8 +69,8 @@ export default class Posts extends Component {
 
                 <div className="row">
                     <div className="col-4  pt-3 border-right">
-                        <h6>Say something about {this.props.title}</h6>
-                        <CommentForm addComment={this.addComment} bookId={this.props.bookId} />
+                        <h6>Say something about THIS BOOK</h6>
+                        <CommentForm addComment={this.addComment} bookId="1" />
                     </div>
                     <div className="col-8  pt-3 bg-white">
                         <CommentList
@@ -83,3 +83,5 @@ export default class Posts extends Component {
         );
     }
 }
+
+export default PostsApp;
