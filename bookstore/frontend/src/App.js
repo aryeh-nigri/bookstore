@@ -11,6 +11,8 @@ import Modal from "./components/Modal";
 import DeleteModal from "./components/DeleteModal";
 import UpdateModal from "./components/UpdateModal";
 import BookAdministration from "./components/BooksAdministration";
+import AboutUs from "./components/AboutUs";
+import ContactUs from "./components/ContactUs";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/details" component={Details} />
         <Route path="/cart" component={Cart} />
         <Route path="/booksAdministration" component={BookAdministration} />
+        <Route path="/aboutUs" component={AboutUs} />
+        <Route path="/contactUs" component={ContactUs} />
         <Route component={Default} />
       </Switch>
       <Modal />
