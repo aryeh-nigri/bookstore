@@ -15,9 +15,11 @@ export default function CommentList(props) {
                 </div>
             ) : null}
 
-            {props.comments.map((comment, index) => (
-                <Comment key={index} comment={comment} />
-            ))}
+            {/* Sort posts by creation date and then render them */}
+            {props.comments.sort((y, x) => { return new Date(x.createdAt) - new Date(y.createdAt) })
+                .map((comment, index) => (
+                    <Comment key={index} comment={comment} />
+                ))}
         </div>
     );
 }

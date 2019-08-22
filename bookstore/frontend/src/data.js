@@ -3,19 +3,19 @@ https://www.iconfinder.com/icons/1243689/call_phone_icon
 Creative Commons (Attribution 3.0 Unported);
 https://www.iconfinder.com/Makoto_msk */
 
-const BOOKS_URL = "api/books";
+// const BOOKS_URL = "api/books";
 
-async function getProducts(url = BOOKS_URL) {
+// async function getProducts(url = BOOKS_URL) {
 
-    const response = await fetch(url, {
-        method: 'GET',
-    });
-    const books = await response.json(); 
-    console.log(books);
-    return books;
-    
-};
-export const storeProducts = getProducts(BOOKS_URL);
+//     const response = await fetch(url, {
+//         method: 'GET',
+//     });
+//     const books = await response.json(); 
+//     console.log(books);
+//     return books;
+
+// };
+// export const storeProducts = getProducts(BOOKS_URL);
 // export const storeProducts = [
 //     {
 //         id: 1,

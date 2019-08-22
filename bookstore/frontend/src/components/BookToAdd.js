@@ -2,20 +2,22 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { ProductConsumer } from "../context";
+
 export default function BookToAdd(props) {
 
-    const {authors, title, publisher, description, pageCount, categories } = props.product.volumeInfo;
-    const { thumbnail } = props.product.volumeInfo.imageLinks;
+  const { authors, title, publisher, description, pageCount, categories } = props.product.volumeInfo;
+  const { thumbnail } = props.product.volumeInfo.imageLinks;
 
-    const book = {
-        authors,
-        title,
-        publisher,
-        description,
-        pageCount,
-        categories,
-        thumbnail,
-    }
+  const book = {
+    authors,
+    title,
+    publisher,
+    description,
+    pageCount,
+    categories,
+    thumbnail,
+  }
+
   return (
     <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
       <div className="card">
@@ -27,12 +29,13 @@ export default function BookToAdd(props) {
               >
                 <img src={thumbnail} alt="" className="card-img-top" />
                 <button
-                  className="cart-btn"   
-                  onClick={() => { 
-                    value.openAddModal(book);}} 
-                   type="button"             
+                  className="cart-btn"
+                  onClick={() => {
+                    value.openAddModal(book);
+                  }}
+                  type="button"
                 >
-                 Add to My Store
+                  Add to My Store
                 </button>
               </div>
             );
@@ -41,7 +44,7 @@ export default function BookToAdd(props) {
         <div className="card-footer d-flex justify-content-between">
           <p className="align-self-center mb-0">{title}</p>
         </div>
-        
+
       </div>
     </ProductWrapper>
   );

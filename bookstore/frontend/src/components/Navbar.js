@@ -39,28 +39,28 @@ export default function Navbar() {
                 </ul>
                 <ul class="navbar-nav">
                     <li className="nav-item">
-                    <Link to="/contactUs" className="nav-link">
-                        <ButtonContainer>
-                    Login
-                    </ButtonContainer>
-                    </Link>
+                        <Link to="/contactUs" className="nav-link">
+                            <ButtonContainer>
+                                Login
+                            </ButtonContainer>
+                        </Link>
                     </li>
                     <li className="nav-item">
-                    <Link to="/contactUs" className="nav-link ">
-                    <ButtonContainer>
-                    Sign In
+                        <Link to="/contactUs" className="nav-link ">
+                            <ButtonContainer>
+                                Sign In
                     </ButtonContainer>
-                    </Link>
+                        </Link>
                     </li>
                     <li className="nav-item">
-                    <Link to="/cart" className="ml-auto nav-link">
-                        <ButtonContainer>
-                            <span className="mr-2">
-                                <i className="fas fa-cart-plus " />
-                            </span>
-                            my cart
+                        <Link to="/cart" className="ml-auto nav-link">
+                            <ButtonContainer>
+                                <span className="mr-2">
+                                    <i className="fas fa-cart-plus " />
+                                </span>
+                                my cart
                         </ButtonContainer>
-                    </Link>
+                        </Link>
                     </li>
                 </ul>
             </div>

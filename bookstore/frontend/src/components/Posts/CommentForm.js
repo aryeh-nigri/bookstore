@@ -32,8 +32,8 @@ export default class CommentForm extends Component {
      */
     handleFieldChange = event => {
         const { value, name } = event.target;
-        console.log(name);
-        console.log(value);
+        // console.log(name);
+        // console.log(value);
 
         this.setState({
             ...this.state,
@@ -64,7 +64,7 @@ export default class CommentForm extends Component {
 
         axios.post(POSTS_URL, comment)
             .then(post => {
-                console.log(post.data);
+                // console.log(post.data);
                 this.props.addComment(post.data);
 
                 // clear the message box

@@ -30,7 +30,7 @@ export default class Posts extends Component {
         axios.get(POSTS_URL + this.props.bookId)
             .then(res => {
                 const posts = res.data;
-                console.log(posts);
+                // console.log(posts);
 
                 this.setState({
                     comments: posts,
@@ -44,7 +44,7 @@ export default class Posts extends Component {
 
         socket.on('postReceived', post => {
             console.log("postReceived");
-            console.log(post);
+            // console.log(post);
             this.setState({ comments: [post, ...this.state.comments] });
         });
 
