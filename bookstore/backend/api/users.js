@@ -55,4 +55,5 @@ router.post("/", (req, res) => {
   });
 });
 
-module.exports = router;
+// module.exports = router;
+module.exports = app => app.use('/api/users', router);

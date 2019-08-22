@@ -23,11 +23,14 @@ mongoose
 app.use(cors());
 
 // Use Routes
-app.use("/api/users", require("./routes/api/users"));
-app.use("/api/books", require("./routes/api/books"));
-app.use("/api/auth", require("./routes/api/auth"));
-// posts route
-app.use('/posts', require('./routes/posts'));
+// app.use("/api/users", require("./routes/api/users"));
+// app.use("/api/books", require("./routes/api/books"));
+// app.use("/api/auth", require("./routes/api/auth"));
+// // posts route
+// app.use('/posts', require('./routes/posts'));
+
+// The index.js file sends the app to every route file
+require('./routes/index')(app);
 
 // // Serve static assets if in production
 // if (process.env.NODE_ENV === 'production') {

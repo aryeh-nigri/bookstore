@@ -1,23 +1,21 @@
 import React from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter } from "react-router-dom";
-import Navbar from "./components/Navbar";
+
+import Routes from './Routes';
 import Modal from "./components/Modal";
 import DeleteModal from "./components/DeleteModal";
 import UpdateModal from "./components/UpdateModal";
-import Routes from './components/Routes';
+import GlobalStyle from './styles/global';
 
 function App() {
   return (
     <React.Fragment>
-      <BrowserRouter>
-        <Navbar />
-        <Routes />
-      </BrowserRouter>
+      <Routes />
       <Modal />
       <DeleteModal />
       <UpdateModal />
+      <GlobalStyle />
     </React.Fragment>
   );
 }

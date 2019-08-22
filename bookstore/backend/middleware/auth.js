@@ -1,21 +1,35 @@
 const jwt = require("jsonwebtoken");
+const authConfig = require('../config/keys');
 
-function auth(req, res, next) {
-  const token = req.header("x-auth-token");
+// Authentication middleware using JWT
+module.exports = (req, res, next) => {
 
-  // Check for token
-  if (!token)
-    return res.status(401).json({ msg: "No token, authorizaton denied" });
+    const authHeader = req.headers.authorization;
 
-  try {
-    // Verify token
-    const decoded = jwt.verify(token, require("../config/keys").jwtSecret);
-    // Add user from payload
-    req.user = decoded;
-    next();
-  } catch (e) {
-    res.status(400).json({ msg: "Token is not valid" });
-  }
-}
+    if (!authHeader) {
+        return res.status(401).send({ error: 'No token provided' });
+    }
 
-module.exports = auth;
+    // Bearer some_hash
+    const parts = authHeader.split(' ');
+
+    if (!parts.length === 2) {
+        return res.status(401).send({ error: 'Token error' });
+    }
+
+    const [scheme, token] = parts;
+
+    if (!/^Bearer$/i.test(scheme)) {
+        return res.status(401).send({ error: 'Token mal-formatted' });
+    }
+
+    jwt.verify(token, authConfig.jwtSecret, (err, decoded) => {
+        if (err) {
+            return res.status(401).send({ error: 'Token invalid' });
+        }
+
+        req.userId = decoded.id;
+        return next();
+    });
+
+};

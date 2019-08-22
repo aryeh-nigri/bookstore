@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const auth = require("../../middleware/auth");
+const auth = require("../middleware/auth");
 
 // Book Model
-const Book = require("../../models/Book");
+const Book = require("../models/Book");
 
 // @route   GET api/books
 // @desc    Get All Books
@@ -15,15 +15,12 @@ router.get("/", (req, res) => {
     }
     res.json(books);
   });
-  //   Item.find()
-  //     .sort({ date: -1 })
-  //     .then(items => res.json(items));
 });
 
 // @route   POST api/books
 // @desc    Create A Book
 // @access  Private
-router.post("/", (req, res) => {
+router.post("/", auth, (req, res) => {
   var book = req.body;
   console.log(book);
   Book.addBook(book, (err, book) => {
@@ -32,30 +29,23 @@ router.post("/", (req, res) => {
     }
     res.json(book);
   });
-  //   const newItem = new Item({
-  //     name: req.body.name
-  //   });
-
-  //   newItem.save().then(item => res.json(item));
 });
 
 // @route   DELETE api/books/:id
 // @desc    Delete A Book
 // @access  Private
-router.delete("/:id", (req, res) => {
+router.delete("/:id", auth, (req, res) => {
   var id = req.params.id;
   console.log(id);
 
   Book.removeBook(id, (err, book) => {
     if (err) {
       throw err;
+      // res.status(404).json({ success: false });
     }
     res.json(book);
+    // res.json({ success: true })
   });
-
-  //   Item.findById(req.params.id)
-  //     .then(item => item.remove().then(() => res.json({ success: true })))
-  //     .catch(err => res.status(404).json({ success: false }));
 });
 
 // @route   GET api/books/:id
@@ -84,4 +74,4 @@ router.put("/:id", auth, (req, res) => {
   });
 });
 
-module.exports = router;
+module.exports = app => app.use('/api/books', router);

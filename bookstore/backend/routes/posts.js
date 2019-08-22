@@ -31,7 +31,7 @@ router.get("/:bookId", (req, res) => {
 // @desc    Create A Post
 // @access  Private
 // router.post("/", auth, (req, res) => {
-    router.post("/", (req, res) => {
+router.post("/", (req, res) => {
     var post = req.body;
     console.log(post);
     Post.addPost(post, (err, post) => {
@@ -46,7 +46,7 @@ router.get("/:bookId", (req, res) => {
 // @desc    Delete A Post
 // @access  Private
 // router.delete("/:id", auth, (req, res) => {
-    router.delete("/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
     var id = req.params.id;
     console.log(id);
 
@@ -58,4 +58,4 @@ router.get("/:bookId", (req, res) => {
     });
 });
 
-module.exports = router;
+module.exports = app => app.use('/posts', router);
