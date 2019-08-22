@@ -24,7 +24,7 @@ class SignUp extends Component {
     } else {
       try {
         // todo acertar o endereco q deve chegar no backend
-        await api.post("/users", { username, email, password });
+        await api.post("/api/auth/register", { name: username, email, password });
         this.props.history.push("/");
       } catch (err) {
         console.log(err);

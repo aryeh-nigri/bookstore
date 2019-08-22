@@ -24,10 +24,13 @@ class SignIn extends Component {
     else {
       try {
         // todo acertar endereco pro backend
-        const response = await api.post("/sessions", { email, password });
+        const response = await api.post("/api/auth/authenticate", { email, password });
+        console.log("RESPONSE:");
+        console.log(response);
         login(response.data.token);
         this.props.history.push("/");
       } catch (err) {
+        console.log(err);
         this.setState({
           error:
             "There was a problem with login, please check your credentials."

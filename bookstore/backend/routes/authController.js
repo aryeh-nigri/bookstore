@@ -51,7 +51,8 @@ router.post('/authenticate', async (req, res) => {
 
     if (!user) {
         // Email/user doesn't exist
-        return res.status(400).send({ error: 'Email not found. Please sign up.' });
+        // return res.status(400).send({ error: 'Email not found. Please sign up.' });
+        return res.status(400).json({ error: 'Email not found. Please sign up.' });
     }
 
     if (!await bcrypt.compare(password, user.password)) {
