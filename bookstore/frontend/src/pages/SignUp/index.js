@@ -23,7 +23,6 @@ class SignUp extends Component {
       this.setState({ error: "Please fill in all the details to register." });
     } else {
       try {
-        // todo acertar o endereco q deve chegar no backend
         await api.post("/api/auth/register", { name: username, email, password });
         this.props.history.push("/");
       } catch (err) {

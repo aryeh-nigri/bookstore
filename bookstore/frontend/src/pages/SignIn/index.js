@@ -23,7 +23,6 @@ class SignIn extends Component {
     }
     else {
       try {
-        // todo acertar endereco pro backend
         const response = await api.post("/api/auth/authenticate", { email, password });
         console.log("RESPONSE:");
         console.log(response);
