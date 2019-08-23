@@ -76,7 +76,7 @@ export default function Navbar() {
                                     <ul className="navbar-nav">
                                         <li className="nav-item">
                                             <Link to="/" className="nav-link ">
-                                                <ButtonContainer onClick={logout()}>
+                                                <ButtonContainer onClick={() => { logout() }}>
                                                     Logout
                                                     </ButtonContainer>
                                             </Link>

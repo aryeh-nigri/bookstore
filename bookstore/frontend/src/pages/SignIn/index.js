@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 
 import logo from "../../assets/logo.svg";
-import api from "../../services/api";
-import { login } from "../../services/auth";
 
 import { Form, Container } from "./styles";
 import { ProductConsumer } from '../../context';
@@ -23,7 +21,7 @@ class SignIn extends Component {
 
           return (
             <Container>
-              <Form onSubmit={e => { e.preventDefault(); login(this.state.email, this.state.password) }}>
+              <Form onSubmit={e => { e.preventDefault(); login(this.state.email, this.state.password); }}>
                 <img src={logo} alt="Bookstore logo" />
                 {loginError && <p>{loginError}</p>}
                 <input

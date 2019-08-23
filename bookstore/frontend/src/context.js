@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router-dom";
 
-import { isAuthenticated as isAuth, logout as authLogout, login as authLogin } from './services/auth';
+import { logout as authLogout, login as authLogin, isAuthenticated as isAuth, getName, getRole } from './services/auth';
+
 import api from "./services/api";
 
 const endpoint = 'http://localhost:8080/';
@@ -62,7 +64,18 @@ class ProductProvider extends Component {
 
     componentDidMount() {
         this.setProducts();
+        this.setUser();
     }
+
+    setUser = () => {
+        if (isAuth()) {
+            this.setState(
+                () => {
+                    return { role: getRole(), username: getName(), isAuthenticated: true };
+                }
+            );
+        }
+    };
 
     setProducts = async () => {
         const response = await fetch(BOOKS_URL, {
@@ -300,10 +313,11 @@ class ProductProvider extends Component {
 
                 authLogin(response.data);
 
-                const { role, username } = response.data.user;
+                const { role, name } = response.data.user;
+
                 this.setState(
                     () => {
-                        return { role, username, isAuthenticated: true, loginError: '' };
+                        return { role, username: name, isAuthenticated: true, loginError: '' };
                     }
                 );
 
@@ -324,6 +338,7 @@ class ProductProvider extends Component {
                 return { role: '', username: '', isAuthenticated: false, loginError: '' };
             }
         );
+
         authLogout();
     };
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import CommentList from "./CommentList";
 import CommentForm from "./CommentForm";
+import { ProductConsumer } from '../../context';
 
 const endpoint = 'http://localhost:8080/';
 const POSTS_URL = endpoint + 'posts/';
@@ -65,21 +66,31 @@ export default class Posts extends Component {
 
     render() {
         return (
-            <div className="App container bg-light shadow">
+            <ProductConsumer>
+                {value => {
+                    const { isAuthenticated } = value;
 
-                <div className="row">
-                    <div className="col-4  pt-3 border-right">
-                        <h6>Say something about {this.props.title}</h6>
-                        <CommentForm addComment={this.addComment} bookId={this.props.bookId} />
-                    </div>
-                    <div className="col-8  pt-3 bg-white">
-                        <CommentList
-                            loading={this.state.loading}
-                            comments={this.state.comments}
-                        />
-                    </div>
-                </div>
-            </div>
+                    return (
+                        <div className="App container bg-light shadow">
+                            <div className="row">
+                                {isAuthenticated &&
+                                    <div className="col-4  pt-3 border-right">
+                                        <h6>Say something about {this.props.title}</h6>
+                                        <CommentForm addComment={this.addComment} bookId={this.props.bookId} />
+                                    </div>
+                                }
+
+                                <div className="col-8  pt-3 bg-white">
+                                    <CommentList
+                                        loading={this.state.loading}
+                                        comments={this.state.comments}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    );
+                }}
+            </ProductConsumer>
         );
     }
 }
