@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-// these are JSON data of the products
-// storeProducts is all
-// detailProduct is the first product
-// import { storeProducts, detailProduct } from "./data";
-const ProductContext = React.createContext();
+
+import { isAuthenticated as isAuth, logout as authLogout, login as authLogin } from './services/auth';
+import api from "./services/api";
+
 const endpoint = 'http://localhost:8080/';
 const BOOKS_URL = endpoint + "api/books";
 
+const ProductContext = React.createContext();
 
 async function getProducts(url = BOOKS_URL) {
 
@@ -30,30 +30,34 @@ class ProductProvider extends Component {
         modalProduct: {},
         cartSubTotal: 0,
         cartTax: 0,
-        cartTotal: 0
+        cartTotal: 0,
+        username: '',
+        role: '',
+        isAuthenticated: false,
+        loginError: ''
     };
 
     addNewBook = async newBook => {
         console.log(`from add new book book: ${newBook}`);
         const newBookJSON = JSON.stringify(newBook);
         console.log(newBookJSON);
-        
+
         const response = await fetch(BOOKS_URL, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-              },
-            body:newBookJSON
+            },
+            body: newBookJSON
         });
-        if(response.ok){    
-            const books = response.json(); 
+        if (response.ok) {
+            const books = response.json();
             console.log(books);
             this.setProducts();
             return books;
         }
         console.log("create fail!");
-        
+
     }
 
     componentDidMount() {
@@ -118,14 +122,14 @@ class ProductProvider extends Component {
     };
     openAddModal = (product) => {
         this.setState(() => {
-            return { modalProduct:product,  addModalOpen: true };
+            return { modalProduct: product, addModalOpen: true };
         });
     };
     openDeleteModal = id => {
-        const product = this.getItem(id);  
+        const product = this.getItem(id);
         this.setState(() => {
             return { modalProduct: product, deleteModalOpen: true };
-        });         
+        });
     };
     openUpdateModal = id => {
         const product = this.getItem(id);
@@ -233,18 +237,18 @@ class ProductProvider extends Component {
     };
     deleteFromStore = async id => {
         console.log(`from deleteFromStore id: ${id}`);
-        
+
         const response = await fetch(endpoint + `api/books/${id}`, {
             method: 'DELETE',
         });
-        if(response.ok){    
-            const books = response.json(); 
+        if (response.ok) {
+            const books = response.json();
             console.log(books);
             this.setProducts();
             return books;
         }
         console.log("delete fail!");
-        
+
     }
 
     removeItem = id => {
@@ -281,6 +285,44 @@ class ProductProvider extends Component {
         );
     };
 
+    login = async (email, password) => {
+
+        if (!email || !password) {
+            this.setState(() => { return { loginError: "Please fill in email and password to login." } });
+        }
+        else {
+            try {
+                const response = await api.post("/api/auth/authenticate", { email, password });
+                console.log("RESPONSE:");
+                console.log(response);
+
+                authLogin(response.data);
+
+                const { role, username } = response.data.user;
+                this.setState(
+                    () => {
+                        return { role, username, isAuthenticated: true };
+                    }
+                );
+
+                this.props.history.push("/");
+
+            } catch (err) {
+                console.log(err);
+                this.setState(() => { return { loginError: "There was a problem with login, please check your credentials." } });
+            }
+        }
+    };
+
+    logout = () => {
+        this.setState(
+            () => {
+                return { role: '', username: '', isAuthenticated: false };
+            }
+        );
+        authLogout();
+    };
+
     render() {
         return (
             <ProductContext.Provider
@@ -302,6 +344,8 @@ class ProductProvider extends Component {
                     deleteFromStore: this.deleteFromStore,
                     clearCart: this.clearCart,
                     addNewBook: this.addNewBook,
+                    login: this.login,
+                    logout: this.logout
                 }}
             >
                 {this.props.children}

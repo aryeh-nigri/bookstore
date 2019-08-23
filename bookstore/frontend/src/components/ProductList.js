@@ -8,10 +8,9 @@ import { ProductConsumer, getProducts } from "../context";
 export default class ProductList extends Component {
 
     state = {
-        //products: storeProducts
         products: getProducts()
     };
-    
+
     render() {
         return (
             <React.Fragment>
@@ -22,7 +21,7 @@ export default class ProductList extends Component {
                             <ProductConsumer>
                                 {value => {
                                     const products = value.products;
-                                    
+
                                     return products.map(product => {
                                         return <Product key={product._id} product={product} />;
                                     });
