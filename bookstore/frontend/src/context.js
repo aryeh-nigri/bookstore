@@ -292,6 +292,8 @@ class ProductProvider extends Component {
         }
         else {
             try {
+                console.log("TO AQUI NO CONTEXT LOGIN");
+
                 const response = await api.post("/api/auth/authenticate", { email, password });
                 console.log("RESPONSE:");
                 console.log(response);
@@ -301,11 +303,13 @@ class ProductProvider extends Component {
                 const { role, username } = response.data.user;
                 this.setState(
                     () => {
-                        return { role, username, isAuthenticated: true };
+                        return { role, username, isAuthenticated: true, loginError: '' };
                     }
                 );
 
-                this.props.history.push("/");
+                console.log(this.props);
+
+                // this.props.history.push("/");
 
             } catch (err) {
                 console.log(err);
@@ -317,7 +321,7 @@ class ProductProvider extends Component {
     logout = () => {
         this.setState(
             () => {
-                return { role: '', username: '', isAuthenticated: false };
+                return { role: '', username: '', isAuthenticated: false, loginError: '' };
             }
         );
         authLogout();

@@ -12,33 +12,8 @@ class SignIn extends Component {
 
   state = {
     email: "",
-    password: "",
-    error: ""
+    password: ""
   };
-
-  // handleSignIn = async e => {
-  //   e.preventDefault();
-  //   const { email, password } = this.state;
-
-  //   if (!email || !password) {
-  //     this.setState({ error: "Please fill in email and password to login." });
-  //   }
-  //   else {
-  //     try {
-  //       const response = await api.post("/api/auth/authenticate", { email, password });
-  //       console.log("RESPONSE:");
-  //       console.log(response);
-  //       login(response.data);
-  //       this.props.history.push("/");
-  //     } catch (err) {
-  //       console.log(err);
-  //       this.setState({
-  //         error:
-  //           "There was a problem with login, please check your credentials."
-  //       });
-  //     }
-  //   }
-  // };
 
   render() {
     return (
@@ -48,7 +23,7 @@ class SignIn extends Component {
 
           return (
             <Container>
-              <Form onSubmit={() => login(this.state.email, this.state.password)}>
+              <Form onSubmit={e => { e.preventDefault(); login(this.state.email, this.state.password) }}>
                 <img src={logo} alt="Bookstore logo" />
                 {loginError && <p>{loginError}</p>}
                 <input

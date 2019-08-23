@@ -56,7 +56,7 @@ export default function Navbar() {
 
                             </ul>
                             {!isAuthenticated ? (
-                                <ul class="navbar-nav">
+                                <ul className="navbar-nav">
                                     <li className="nav-item">
                                         <Link to="/login" className="nav-link">
                                             <ButtonContainer>
@@ -73,7 +73,7 @@ export default function Navbar() {
                                     </li>
                                 </ul>
                             ) : (
-                                    <ul class="navbar-nav">
+                                    <ul className="navbar-nav">
                                         <li className="nav-item">
                                             <Link to="/" className="nav-link ">
                                                 <ButtonContainer onClick={logout()}>
