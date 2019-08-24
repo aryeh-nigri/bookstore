@@ -17,7 +17,8 @@ class SignUp extends Component {
 
   handleSignUp = async e => {
     e.preventDefault();
-
+    console.log("estou em handleSignup");
+    
     const { username, email, password } = this.state;
     if (!username || !email || !password) {
       this.setState({ error: "Please fill in all the details to register." });

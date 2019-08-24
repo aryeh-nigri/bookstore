@@ -11,6 +11,10 @@ import BookAdministration from "./components/BooksAdministration";
 import AboutUs from "./components/pages/AboutUs";
 import ContactUs from "./components/pages/ContactUs";
 import Default from "./components/pages/Default";
+import Modal from "./components/Modal";
+import DeleteModal from "./components/DeleteModal";
+import UpdateModal from "./components/UpdateModal";
+import GlobalStyle from './styles/global';
 
 import { isAuthenticated, isAdminAuthenticated } from "./services/auth";
 
@@ -54,6 +58,10 @@ const Routes = () => (
       <Route path="/signup" component={SignUp} />
       <Route component={Default} />
     </Switch>
+    <Modal />
+    <DeleteModal />
+    <UpdateModal />
+    <GlobalStyle />
   </BrowserRouter>
 );
 

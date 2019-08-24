@@ -22,6 +22,17 @@ export default function Details() {
                     inCart
                 } = value.detailProduct;
 
+                let newDescription = "";
+                if(description){
+                    const lcdescription = description.toLowerCase();
+                    newDescription = upperCasefirst(lcdescription);
+                    console.log(newDescription);
+                    
+                }
+                function upperCasefirst(string) 
+                {
+                    return string.charAt(0).toUpperCase() + string.slice(1);
+                }
                 return (
 
                     <div className="container py-5" id="topDiv">
@@ -33,11 +44,11 @@ export default function Details() {
                         </div>
                         {/* end of title */}
                         <div className="row">
-                            <div className="col-10 mx-auto col-md-6 my-3">
-                                <img src={image_url} className="img-fluid" alt="" />
+                            <div className="col-10 mx-auto col-md-2 my-3">
+                                <img src={image_url} className="img-fluid myimg" alt="" />
                             </div>
                             {/* product info */}
-                            <div className="col-10 mx-auto col-md-6 my-3 text-capitalize">
+                            <div className="col-10 mx-auto col-md-10 my-3">
                                 <h1>title : {title}</h1>
                                 <h4 className="text-title text-uppercase text-muted mt-3 mb-2">
                                     Author : <span className="text-uppercase">{author}</span>
@@ -48,10 +59,10 @@ export default function Details() {
                                         {price}
                                     </strong>
                                 </h4>
-                                <p className="text-capitalize font-weight-bold mt-3 mb-0">
-                                    some info about product :
-                  </p>
-                                <p className="text-muted lead">{description}</p>
+                                <p className="font-weight-bold mt-3 mb-0">
+                                    Some info about product :
+                                </p>
+                                <p className="text-muted lead">{newDescription}</p>
                                 {/* buttons */}
                                 <div>
                                     <Link to="/">

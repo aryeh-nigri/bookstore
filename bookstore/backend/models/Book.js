@@ -25,9 +25,6 @@ const BookSchema = mongoose.Schema({
   image_url: {
     type: String
   },
-  buy_url: {
-    type: String
-  },
   price: {
     type: Number,
     required: true
@@ -56,6 +53,7 @@ module.exports.addBook = (book, callback) => {
 // Update Book
 module.exports.updateBook = (id, book, options, callback) => {
   var query = { _id: id };
+  
   var update = {
     title: book.title,
     genre: book.genre,
@@ -64,7 +62,6 @@ module.exports.updateBook = (id, book, options, callback) => {
     publisher: book.publisher,
     pages: book.pages,
     image_url: book.image_url,
-    buy_url: book.buy_url,
     price: book.price
   };
   Book.findOneAndUpdate(query, update, options, callback);

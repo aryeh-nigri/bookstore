@@ -21,45 +21,43 @@ async function getProducts(url = BOOKS_URL) {
 };
 
 class ProductProvider extends Component {
-    state = {
-        products: [],
-        detailProduct: {},
-        cart: [],
-        modalOpen: false,
-        updateModalOpen: false,
-        deleteModalOpen: false,
-        addModalOpen: false,
-        modalProduct: {},
-        cartSubTotal: 0,
-        cartTax: 0,
-        cartTotal: 0,
-        username: '',
-        role: '',
-        isAuthenticated: false,
-        loginError: ''
-    };
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            products: [],
+            detailProduct: {},
+            cart: [],
+            modalOpen: false,
+            updateModalOpen: false,
+            deleteModalOpen: false,
+            addModalOpen: false,
+            modalProduct: {},
+            cartSubTotal: 0,
+            cartTax: 0,
+            cartTotal: 0,
+            username: '',
+            role: '',
+            isAuthenticated: false,
+            loginError: ''
+        };
+    }
     addNewBook = async newBook => {
         console.log(`from add new book book: ${newBook}`);
         const newBookJSON = JSON.stringify(newBook);
         console.log(newBookJSON);
 
-        const response = await fetch(BOOKS_URL, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: newBookJSON
+        const response = await api.post(BOOKS_URL, {
+            body: newBook
         });
-        if (response.ok) {
-            const books = response.json();
+        if (response.status) {
+            const books = response.data;
             console.log(books);
             this.setProducts();
             return books;
         }
-        console.log("create fail!");
-
+        else{
+            console.log("create fail!");
+        }
     }
 
     componentDidMount() {
@@ -251,19 +249,38 @@ class ProductProvider extends Component {
     deleteFromStore = async id => {
         console.log(`from deleteFromStore id: ${id}`);
 
-        const response = await fetch(endpoint + `api/books/${id}`, {
-            method: 'DELETE',
-        });
-        if (response.ok) {
-            const books = response.json();
+        const response = await api.delete(`api/books/${id}`);
+        if (response.status) {
+            const books = response.data;
             console.log(books);
             this.setProducts();
             return books;
         }
+        else{
         console.log("delete fail!");
-
+        }
     }
 
+    updateItem = async (id, price) => {
+        console.log(`from updateItem id: ${id}`);
+        let tempProducts = [...this.state.products];
+        const index = tempProducts.indexOf(this.getItem(id));
+        const product = tempProducts[index];
+        product.price = price;
+        const response = await api.put(`api/books/${id}`,{
+        book:product,
+        }
+        );
+        if (response.status) {
+            const books = response.data;
+            console.log(books);
+            this.setProducts();
+            return books;
+        }
+        else{
+        console.log("update fail!");
+        }
+    }
     removeItem = id => {
         let tempProducts = [...this.state.products];
         let tempCart = [...this.state.cart];
@@ -322,12 +339,13 @@ class ProductProvider extends Component {
                 );
 
                 console.log(this.props);
-
+                return true;
                 // this.props.history.push("/");
 
             } catch (err) {
                 console.log(err);
                 this.setState(() => { return { loginError: "There was a problem with login, please check your credentials." } });
+                return false;
             }
         }
     };
@@ -355,12 +373,13 @@ class ProductProvider extends Component {
                     openAddModal: this.openAddModal,
                     closeModal: this.closeModal,
                     closeDeleteModal: this.closeDeleteModal,
-                    closeUpdateModal: this.closeDeleteModal,
+                    closeUpdateModal: this.closeUpdateModal,
                     closeAddModal: this.closeAddModal,
                     increment: this.increment,
                     decrement: this.decrement,
                     removeItem: this.removeItem,
                     deleteFromStore: this.deleteFromStore,
+                    updateItem: this.updateItem,
                     clearCart: this.clearCart,
                     addNewBook: this.addNewBook,
                     login: this.login,

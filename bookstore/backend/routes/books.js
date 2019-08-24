@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
 // @desc    Create A Book
 // @access  Private
 router.post("/", auth, (req, res) => {
-  var book = req.body;
+  var book = req.body.body;
   console.log(book);
   Book.addBook(book, (err, book) => {
     if (err) {
@@ -65,7 +65,9 @@ router.get("/:id", (req, res) => {
 // @access  Private
 router.put("/:id", auth, (req, res) => {
   var id = req.params.id;
-  var book = req.body;
+  var book = req.body.book;
+  console.log(book);
+  
   Book.updateBook(id, book, {}, (err, book) => {
     if (err) {
       throw err;

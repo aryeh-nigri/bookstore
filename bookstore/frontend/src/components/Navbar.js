@@ -12,9 +12,9 @@ export default function Navbar() {
         <ProductConsumer>
             {value => {
                 const { username, role, isAuthenticated, logout } = value;
-
+//lg
                 return (
-                    <Nav className="navbar  navbar-expand-lg  navbar-dark px-sm-5">
+                    <Nav className="navbar  navbar-expand-sm navbar-dark px-sm-5">
                         <Link to="/" >
                             <img src={logo} alt="store" className="navbar-brand" />
                         </Link>
@@ -61,7 +61,7 @@ export default function Navbar() {
                                         <Link to="/login" className="nav-link">
                                             <ButtonContainer>
                                                 Login
-                                </ButtonContainer>
+                                            </ButtonContainer>
                                         </Link>
                                     </li>
                                     <li className="nav-item">

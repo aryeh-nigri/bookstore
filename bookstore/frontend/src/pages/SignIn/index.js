@@ -21,7 +21,13 @@ class SignIn extends Component {
 
           return (
             <Container>
-              <Form onSubmit={e => { e.preventDefault(); login(this.state.email, this.state.password); }}>
+              <Form onSubmit={async e =>
+                 { e.preventDefault();
+                  const logged = await login(this.state.email, this.state.password);
+                  if(logged){
+                    this.props.history.push("/");
+                  }
+                   }}>
                 <img src={logo} alt="Bookstore logo" />
                 {loginError && <p>{loginError}</p>}
                 <input

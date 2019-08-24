@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { ProductConsumer, getProducts } from "../context";
 import BookToAdd from "./BookToAdd";
 import AddModal from "./AddModal"
+import { ButtonContainer } from "./Button";
 import "./BooksAdministration.css"
 export default class BooksAdministration extends Component {
     constructor(props) {
@@ -56,7 +57,7 @@ export default class BooksAdministration extends Component {
                   <label>
                     <input type="text" className="book-input" placeholder="Write a title of a book to look for..." value={this.state.value} onChange={this.handleChange} />
                   </label>
-                  <input type="submit" value="Find to me!" />
+                  <button type="submit" class="btn btn-primary">Find to me!</button>
                 </form>
                 </div>
                </div>
