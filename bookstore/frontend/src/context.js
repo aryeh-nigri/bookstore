@@ -377,13 +377,56 @@ class ProductProvider extends Component {
     likePost = postId => {
         var post = this.state.detailComments.find(p => p._id === postId);
 
-        post.likes +=1;
+        post.likes += 1;
+        // console.log(post);
 
-        // chamar update do backend, q ainda nao existe
-        // lancar evento do socket.io
+        api.put(`/posts/${postId}`, post)
+        .then(post => {
+            const newPost = post.data;
+            // console.log(newPost);            
+
+            socket.emit("postUpdated", newPost);
+
+            const newDetailComments = this.state.detailComments.map(comment => 
+                comment._id === newPost._id ?
+                newPost
+                : comment
+            );
+
+            // console.log(newDetailComments);            
+
+            this.setState(() => { return { detailComments: newDetailComments } });
+        })
+        .catch(err => {
+            console.log(err);
+            // return { success: false, error: "Something went wrong while submitting form." };
+        });
     };
 
-    dislikePost = id => {};
+    dislikePost = postId => {
+        var post = this.state.detailComments.find(p => p._id === postId);
+
+        post.dislikes += 1;
+
+        api.put(`/posts/${postId}`, post)
+        .then(post => {
+            const newPost = post.data;
+
+            socket.emit("postUpdated", newPost);
+
+            const newDetailComments = this.state.detailComments.map(comment => 
+                comment._id === newPost._id ?
+                newPost
+                : comment
+            );
+
+            this.setState(() => { return { detailComments: newDetailComments } });
+        })
+        .catch(err => {
+            console.log(err);
+            // return { success: false, error: "Something went wrong while submitting form." };
+        });
+    };
 
     setComments = async bookId => {
         this.setState(() => { return { loadingComments: true } });
@@ -406,6 +449,18 @@ class ProductProvider extends Component {
             if(post.bookId === bookId){
                 this.setState(() => { return { detailComments: [post, ...this.state.detailComments] } });
             }
+        });
+
+        socket.on('updateReceived', post => {
+            console.log("updateReceived");
+            // console.log(post);
+            const newDetailComments = this.state.detailComments.forEach(comment => {
+                if(comment._id === post._id){
+                    comment = post;
+                }
+            });
+
+            this.setState(() => { return { detailComments: newDetailComments } });
         });
     };
 

@@ -42,6 +42,22 @@ router.post("/", auth, (req, res) => {
     });
 });
 
+// @route   UPDATE /posts/:id
+// @desc    Update A Post
+// @access  Private
+router.put("/:id", auth, (req, res) => {
+    var id = req.params.id;
+    var post = req.body;
+    // console.log(post);
+    
+    Post.updatePost(id, post, {}, (err, post) => {
+      if (err) {
+        throw err;
+      }
+      res.json(post);
+    });
+  });
+
 // @route   DELETE /posts/:id
 // @desc    Delete A Post
 // @access  Private

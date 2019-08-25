@@ -54,6 +54,21 @@ module.exports.addPost = (post, callback) => {
     Post.create(post, callback);
 };
 
+// Update Post
+module.exports.updatePost = (id, post, options, callback) => {
+    var query = { _id: id };
+    
+    var update = {
+        message: post.message,
+        name: post.name,
+        bookId: post.bookId,
+        rating: post.rating,
+        likes: post.likes,
+        dislikes: post.dislikes
+    };
+    Post.findOneAndUpdate(query, update, options, callback);
+  };
+
 // Delete Post
 module.exports.removePost = (id, callback) => {
     var query = { _id: id };
