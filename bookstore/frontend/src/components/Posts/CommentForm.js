@@ -53,7 +53,8 @@ export default class CommentForm extends Component {
          // clear the message box
          this.setState({
             loading: false,
-            comment: '',
+            error:'',
+            message: '',
             rating:0
         });
     };

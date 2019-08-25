@@ -23,7 +23,6 @@ export default function Comment(props) {
 
 <div className="media-body p-2 shadow-sm rounded bg-light border">
     <small className="float-right text-muted">{moment(createdAt).fromNow()}</small>
-    <small className="float-right text-muted">{rating}</small>
     <h6 className="mt-0 mb-1 text-muted"><strong>{name}</strong></h6>
     <Rating value={rating} readOnly />
     {message}

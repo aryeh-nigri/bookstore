@@ -374,7 +374,14 @@ class ProductProvider extends Component {
                     authLogout();
     }; 
 
-    likePost = id => {};
+    likePost = postId => {
+        var post = this.state.detailComments.find(p => p._id === postId);
+
+        post.likes +=1;
+
+        // chamar update do backend, q ainda nao existe
+        // lancar evento do socket.io
+    };
 
     dislikePost = id => {};
 
@@ -414,15 +421,18 @@ class ProductProvider extends Component {
                 this.setState(() => { return { detailComments: [newPost, ...this.state.detailComments], loadingComments: false } });
                 socket.emit("newPost", newPost);
 
-                return { success: true };
+                // return { success: true };
             })
             .catch(err => {
                 console.log(err);
                 return { success: false, error: "Something went wrong while submitting form." };        
             });
-        }
 
-        return { success: false, error: "All fields are required." };
+            return { success: true };
+        }
+        else{
+            return { success: false, error: "All fields are required." };
+        }
     };
             
                 render() {
