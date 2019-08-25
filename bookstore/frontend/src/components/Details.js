@@ -10,7 +10,6 @@ export default function Details() {
     return (
         <ProductConsumer>
             {value => {
-                // console.log(value);
 
                 const {
                     _id,
@@ -21,6 +20,10 @@ export default function Details() {
                     title,
                     inCart
                 } = value.detailProduct;
+
+                const { detailComments, loadingComments, isAuthenticated, addComment, likePost, dislikePost } = value;
+
+                console.log(`Product ID : ${_id}`);
 
                 let newDescription = "";
                 if(description){
@@ -82,7 +85,13 @@ export default function Details() {
                             </div>
                         </div>
                         <div id="lastBottomDiv">
-                            {<Posts bookId={_id} title={title} username='UserNameHere' />}
+                            <Posts comments={detailComments} 
+                                   loading={loadingComments} 
+                                   isAuthenticated={isAuthenticated}
+                                   title={title}
+                                   addComment={addComment}
+                                   likePost={likePost}
+                                   dislikePost={dislikePost} />
                         </div>
 
                     </div>

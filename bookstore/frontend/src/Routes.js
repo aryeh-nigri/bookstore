@@ -50,6 +50,7 @@ const Routes = () => (
     <Switch>
       <Route exact path='/' component={ProductList} />
       <Route path='/details' component={Details} />
+      {/* <Route path='/details' component={props=><Details {...props} />} /> */}
       <PrivateRoute path="/cart" component={Cart} />
       <AdminRoute path="/booksAdministration" component={BookAdministration} />
       <Route path="/aboutUs" component={AboutUs} />

@@ -16,6 +16,21 @@ const PostSchema = mongoose.Schema(
             type: String,
             ref: 'Book',
             required: true
+        },
+        rating:{
+            type:Number,
+            min:0, max:5,
+            default:0
+        },
+        likes:{
+            type:Number,
+            default:0,
+            min:0
+        },
+        dislikes:{
+            type:Number,
+            default:0,
+            min:0
         }
     },
     {

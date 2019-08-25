@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { withRouter } from "react-router-dom";
+import { Socket } from 'net';
+import io from 'socket.io-client';
 
 import { logout as authLogout, login as authLogin, isAuthenticated as isAuth, getName, getRole } from './services/auth';
 
@@ -9,6 +10,7 @@ const endpoint = 'http://localhost:8080/';
 const BOOKS_URL = endpoint + "api/books";
 
 const ProductContext = React.createContext();
+const socket = io(endpoint);
 
 async function getProducts(url = BOOKS_URL) {
 
@@ -21,8 +23,10 @@ async function getProducts(url = BOOKS_URL) {
 };
 
 class ProductProvider extends Component {
+
     constructor(props) {
         super(props);
+
         this.state = {
             products: [],
             detailProduct: {},
@@ -38,9 +42,13 @@ class ProductProvider extends Component {
             username: '',
             role: '',
             isAuthenticated: false,
-            loginError: ''
+            loginError: '',
+            detailComments: [],
+            loadingComments: false,
+            addingCommentError: ''
         };
     }
+
     addNewBook = async newBook => {
         console.log(`from add new book book: ${newBook}`);
         const newBookJSON = JSON.stringify(newBook);
@@ -93,6 +101,7 @@ class ProductProvider extends Component {
             return { products, detailProduct, modalProduct };
         }, this.checkCartItems);
     };
+
     getItem = id => {
         const product = this.state.products.find(item => item._id === id);
         return product;
@@ -101,10 +110,12 @@ class ProductProvider extends Component {
     handleDetail = id => {
         const product = this.getItem(id);
         console.log(product);
-
+        
         this.setState(() => {
             return { detailProduct: product };
         });
+
+        this.setComments(id);
     };
 
     addToCart = id => {
@@ -345,22 +356,77 @@ class ProductProvider extends Component {
             } catch (err) {
                 console.log(err);
                 this.setState(() => { return { loginError: "There was a problem with login, please check your credentials." } });
-                return false;
             }
         }
-    };
-
-    logout = () => {
-        this.setState(
-            () => {
-                return { role: '', username: '', isAuthenticated: false, loginError: '' };
+                    return false;
+                };
+                        
+                
+                logout= () => {
+            
+                this.setState(
+                    () => {
+                        
+                            return { role: '', username: '', isAuthenticated: false, loginError: '' };
             }
-        );
+        ); 
+                
+                    authLogout();
+    }; 
 
-        authLogout();
+    likePost = id => {};
+
+    dislikePost = id => {};
+
+    setComments = async bookId => {
+        this.setState(() => { return { loadingComments: true } });
+
+        // get all the comments
+        await api.get(`/posts/${bookId}`)
+            .then(res => {
+                const posts = res.data;
+                // console.log(posts);
+                this.setState(() => { return { detailComments: posts, loadingComments: false } });
+            })
+            .catch(err => {
+                console.log(err);
+                this.setState(() => { return { loadingComments: false } });
+            });
+
+        socket.on('postReceived', post => {
+            console.log("postReceived");
+            // console.log(post);
+            if(post.bookId === bookId){
+                this.setState(() => { return { detailComments: [post, ...this.state.detailComments] } });
+            }
+        });
     };
 
-    render() {
+    addComment = comment => {
+        if(comment.message !== ''){
+            comment.name = this.state.username;
+            comment.bookId = this.state.detailProduct._id;
+
+            api.post('/posts', comment)
+            .then(post => {
+                const newPost = post.data;
+
+                this.setState(() => { return { detailComments: [newPost, ...this.state.detailComments], loadingComments: false } });
+                socket.emit("newPost", newPost);
+
+                return { success: true };
+            })
+            .catch(err => {
+                console.log(err);
+                return { success: false, error: "Something went wrong while submitting form." };        
+            });
+        }
+
+        return { success: false, error: "All fields are required." };
+    };
+            
+                render() {
+            
         return (
             <ProductContext.Provider
                 value={{
@@ -368,8 +434,8 @@ class ProductProvider extends Component {
                     handleDetail: this.handleDetail,
                     addToCart: this.addToCart,
                     openModal: this.openModal,
-                    openDeleteModal: this.openDeleteModal,
-                    openUpdateModal: this.openUpdateModal,
+                    openDeleteModal:  this.openDeleteModal,
+                    openUpdateModal:  this.openUpdateModal,
                     openAddModal: this.openAddModal,
                     closeModal: this.closeModal,
                     closeDeleteModal: this.closeDeleteModal,
@@ -383,7 +449,11 @@ class ProductProvider extends Component {
                     clearCart: this.clearCart,
                     addNewBook: this.addNewBook,
                     login: this.login,
-                    logout: this.logout
+                    logout: this.logout,
+                    likePost: this.likePost,
+                    dislikePost: this.dislikePost,
+                    getComments: this.getComments,
+                    addComment: this.addComment,
                 }}
             >
                 {this.props.children}
