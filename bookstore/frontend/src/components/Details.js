@@ -23,13 +23,13 @@ export default function Details() {
 
                 const { detailComments, loadingComments, isAuthenticated, addComment, likePost, dislikePost } = value;
 
-                console.log(`Product ID : ${_id}`);
+                // console.log(`Product ID : ${_id}`);
 
                 let newDescription = "";
                 if(description){
                     const lcdescription = description.toLowerCase();
                     newDescription = upperCasefirst(lcdescription);
-                    console.log(newDescription);
+                    // console.log(newDescription);
                     
                 }
                 function upperCasefirst(string) 

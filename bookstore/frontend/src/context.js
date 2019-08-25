@@ -109,7 +109,7 @@ class ProductProvider extends Component {
 
     handleDetail = id => {
         const product = this.getItem(id);
-        console.log(product);
+        // console.log(product);
         
         this.setState(() => {
             return { detailProduct: product };
@@ -374,58 +374,99 @@ class ProductProvider extends Component {
                     authLogout();
     }; 
 
-    likePost = postId => {
-        var post = this.state.detailComments.find(p => p._id === postId);
+    likePost = (postId, liked, disliked) => {
+        if(isAuth()){
+            var post = this.state.detailComments.find(p => p._id === postId);
+            var didLiked;
 
-        post.likes += 1;
-        // console.log(post);
-
-        api.put(`/posts/${postId}`, post)
-        .then(post => {
-            const newPost = post.data;
-            // console.log(newPost);            
-
-            socket.emit("postUpdated", newPost);
+            if(!liked){
+                if(!disliked){
+                    post.likes += 1;
+                }else{
+                    post.likes += 1;
+                    post.dislikes -= 1;
+                }
+                didLiked = true;
+            }else{
+                if(!disliked){
+                    post.likes -= 1;
+                }else{
+                    // not allowed to like and dislike same post
+                }
+                didLiked = false;
+            }
+            // console.log(post);
 
             const newDetailComments = this.state.detailComments.map(comment => 
-                comment._id === newPost._id ?
-                newPost
+                comment._id === post._id ?
+                post
                 : comment
             );
+            
+            // console.log(newDetailComments);
 
-            // console.log(newDetailComments);            
-
+            socket.emit("postUpdated", post);    
+            
             this.setState(() => { return { detailComments: newDetailComments } });
-        })
-        .catch(err => {
-            console.log(err);
-            // return { success: false, error: "Something went wrong while submitting form." };
-        });
+            
+            api.put(`/posts/${postId}`, post)
+            // .then(post => {
+            //     // const newPost = post.data;
+            //     // console.log(newPost);
+            // })
+            .catch(err => {
+                console.log(err);
+                // return false;       
+                // return { success: false, error: "Something went wrong while submitting form." };
+            });
+
+            return didLiked;
+        }
     };
 
-    dislikePost = postId => {
-        var post = this.state.detailComments.find(p => p._id === postId);
+    dislikePost = (postId, liked, disliked) => {
+        if(isAuth()){
+            var post = this.state.detailComments.find(p => p._id === postId);
+            var didDisliked;
 
-        post.dislikes += 1;
-
-        api.put(`/posts/${postId}`, post)
-        .then(post => {
-            const newPost = post.data;
-
-            socket.emit("postUpdated", newPost);
+            if(!disliked){
+                if(!liked){
+                    post.dislikes += 1;
+                }else{
+                    post.dislikes += 1;
+                    post.likes -= 1;
+                }
+                didDisliked = true;
+            }else{
+                if(!liked){
+                    post.dislikes -= 1;
+                }else{
+                    // not allowed to like and dislike same post
+                }
+                didDisliked = false;
+            }
 
             const newDetailComments = this.state.detailComments.map(comment => 
-                comment._id === newPost._id ?
-                newPost
+                comment._id === post._id ?
+                post
                 : comment
-            );
+                );
+                
+                this.setState(() => { return { detailComments: newDetailComments } });
+                socket.emit("postUpdated", post);
 
-            this.setState(() => { return { detailComments: newDetailComments } });
-        })
-        .catch(err => {
-            console.log(err);
-            // return { success: false, error: "Something went wrong while submitting form." };
-        });
+            api.put(`/posts/${postId}`, post)
+            // .then(post => {
+            //     // const newPost = post.data;
+            // })
+            .catch(err => {
+                console.log(err);
+                // return false;
+                // return { success: false, error: "Something went wrong while submitting form." };
+            });
+
+            return didDisliked;
+        }
     };
 
     setComments = async bookId => {
@@ -454,13 +495,15 @@ class ProductProvider extends Component {
         socket.on('updateReceived', post => {
             console.log("updateReceived");
             // console.log(post);
-            const newDetailComments = this.state.detailComments.forEach(comment => {
-                if(comment._id === post._id){
-                    comment = post;
-                }
-            });
-
-            this.setState(() => { return { detailComments: newDetailComments } });
+            if(post.bookId === bookId){
+                const newDetailComments = this.state.detailComments.map(comment => 
+                    comment._id === post._id ?
+                    post
+                    : comment
+                );
+    
+                this.setState(() => { return { detailComments: newDetailComments } });
+            }
         });
     };
 
