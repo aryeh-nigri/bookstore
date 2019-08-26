@@ -65,7 +65,7 @@ router.post('/authenticate', async (req, res) => {
     res.send({ user, token: generateToken({ id: user.id }) });
 });
 
-// @route   GET auth/user
+// @route   GET /api/auth/user
 // @desc    Get user data
 // @access  Private
 router.get('/user', auth, (req, res) => {
@@ -74,5 +74,35 @@ router.get('/user', auth, (req, res) => {
     // .select("-password")
     // .then(user => res.json(user));
 });
+
+// @route   GET api/auth/cart/:id
+// @desc    Get User Cart
+// @access  Private
+router.get('/cart:id', auth, (req, res) => {
+    var id = req.params.id;
+
+    User.getUserById(id, (err, user) => {
+        if (err) {
+            throw err;
+        }
+        res.json(user.cart);
+    });
+});
+
+// @route   UPDATE api/auth/cart/:id
+// @desc    Update A User's Cart
+// @access  Private
+router.put("/cart/:id", auth, (req, res) => {
+    var id = req.params.id;
+    var cart = req.body.cart;
+    console.log(cart);
+    
+    User.addCart(id, cart, {}, (err, user) => {
+      if (err) {
+        throw err;
+      }
+      res.json(user);
+    });
+  });
 
 module.exports = app => app.use('/api/auth', router);

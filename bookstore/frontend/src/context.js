@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Socket } from 'net';
+// import { Socket } from 'net';
 import io from 'socket.io-client';
 
 import { logout as authLogout, login as authLogin, isAuthenticated as isAuth, getName, getRole } from './services/auth';
@@ -362,16 +362,35 @@ class ProductProvider extends Component {
                 };
                         
                 
-                logout= () => {
-            
-                this.setState(
-                    () => {
-                        
-                            return { role: '', username: '', isAuthenticated: false, loginError: '' };
+    logout= async () => {
+
+        await api.get('/api/auth/user')
+        .then(res => {
+            console.log(res);
+            // res.send({ ok: true, user: req.userId });
+            const userId = res.data.user;
+            api.put(`/api/auth/cart/${userId}`, this.state.cart)
+            .then(res => {
+                console.log('Cart saved successfully');
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+        
+    
+        this.setState(
+            () => {
+                return { role: '', username: '', isAuthenticated: false, loginError: '' };
             }
         ); 
                 
-                    authLogout();
+        authLogout();
+        this.clearCart();
     }; 
 
     likePost = (postId, liked, disliked) => {

@@ -22,6 +22,10 @@ const UserSchema = mongoose.Schema({
     type: String,
     enum: ['admin', 'user'],
     default: 'user'
+  },
+  cart:{
+    type: [Object],
+    default: []
   }
 },
   {
@@ -37,3 +41,17 @@ UserSchema.pre('save', async function (next) {
 });
 
 module.exports = User = mongoose.model("User", UserSchema);
+
+// Get User
+module.exports.getUserById = (id, callback) => {
+  User.findById(id, callback);
+};
+
+// Add User Cart
+module.exports.addCart = (id, cart, options, callback) => {
+  var query = { _id: id };
+  
+  var update = {cart};
+
+  User.findOneAndUpdate(query, update, options, callback);
+};
