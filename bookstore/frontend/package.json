@@ -12,6 +12,7 @@
     "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-mail-form": "^2.0.1",
     "react-paypal-express-checkout": "^1.0.5",
     "react-rating": "^1.7.2",
     "react-router-dom": "^5.0.0",
